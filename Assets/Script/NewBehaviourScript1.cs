@@ -5,7 +5,7 @@ using UnityEngine;
 public class NewBehaviourScript1 : MonoBehaviour
 {
     public Vector2 inputVec;
-
+    public float speed;
     Rigidbody2D rigid;
 
     // Start is called before the first frame update
@@ -17,11 +17,12 @@ public class NewBehaviourScript1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        inputVec.x = Input.GetAxis("Horizontal");
-        inputVec.y = Input.GetAxis("Vertical");
+        inputVec.x = Input.GetAxisRaw("Horizontal");
+        inputVec.y = Input.GetAxisRaw("Vertical");
     }
     private void FixedUpdate()
     {
-        rigid.MovePosition(rigid.position + inputVec);
+        Vector2 nextVec = inputVec.normalized * speed * Time.fixedDeltaTime;
+        rigid.MovePosition(rigid.position + nextVec);
     }
 }
