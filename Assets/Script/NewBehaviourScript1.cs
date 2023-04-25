@@ -20,18 +20,18 @@ public class NewBehaviourScript1 : MonoBehaviour
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-        manager = FindObjectOfType<gamemanager>(); // gamemanager °´Ã¼¸¦ Ã£¾Æ¼­ ÇÒ´çÇÕ´Ï´Ù.
+        manager = FindObjectOfType<gamemanager>(); // gamemanager ï¿½ï¿½Ã¼ï¿½ï¿½ Ã£ï¿½Æ¼ï¿½ ï¿½Ò´ï¿½ï¿½Õ´Ï´ï¿½.
         anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // manager.isActionÀÌ nullÀÌ ¾Æ´ÑÁö È®ÀÎÇÏ°í ÂüÁ¶ÇÕ´Ï´Ù.
+        // manager.isActionï¿½ï¿½ nullï¿½ï¿½ ï¿½Æ´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
         h = manager != null && manager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
         v = manager != null && manager.isAction ? 0 : Input.GetAxisRaw("Vertical");
 
-        // manager.isActionÀÌ nullÀÌ ¾Æ´ÑÁö È®ÀÎÇÏ°í ÂüÁ¶ÇÕ´Ï´Ù.
+        // manager.isActionï¿½ï¿½ nullï¿½ï¿½ ï¿½Æ´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
         bool hDown = manager != null && manager.isAction ? false : Input.GetButtonDown("Horizontal");
         bool vDown = manager != null && manager.isAction ? false : Input.GetButtonDown("Vertical");
         bool hUp = manager != null && manager.isAction ? false : Input.GetButtonUp("Horizontal");
@@ -44,16 +44,18 @@ public class NewBehaviourScript1 : MonoBehaviour
         else if (hUp || vUp)
             isHorizonMove = h != 0;
 
-        if (anim.GetInteger("hAxisRaw") != h)
+        if (anim.GetInteger("vAxisRaw") != v) 
+        {
+             anim.SetBool("isChange", true);
+             anim.SetInteger("vAxisRaw", (int)v); 
+        }
+        else if
+            (anim.GetInteger("hAxisRaw") != h)
         {
             anim.SetBool("isChange", true);
             anim.SetInteger("hAxisRaw", (int)h);
         }
-        else if (anim.GetInteger("vAxisRaw") != v)
-        {
-            anim.SetBool("isChange", true);
-            anim.SetInteger("vAxisRaw", (int)v);
-        }
+        
         else
             anim.SetBool("isChange", false);
 
@@ -63,9 +65,9 @@ public class NewBehaviourScript1 : MonoBehaviour
             dirVec = Vector3.up;
         else if (vDown && v == -1)
             dirVec = Vector3.down;
-        else if (hDown && h == -1)
-            dirVec = Vector3.left;
         else if (hDown && h == 1)
+            dirVec = Vector3.left;
+        else if (hDown && h == -1)
             dirVec = Vector3.right;
 
         if (Input.GetButtonDown("Jump") && scanObject != null)
